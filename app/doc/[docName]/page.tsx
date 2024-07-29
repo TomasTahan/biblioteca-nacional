@@ -16,7 +16,6 @@ export default async function DocPage({
 }: {
   params: { docName: string };
 }) {
-  console.log(docName);
   const decodedDocName = decodeURIComponent(docName);
   const supabase = createClient();
   const { data, error } = await supabase.storage

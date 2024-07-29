@@ -1,20 +1,31 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 
-export default function IFramePage({ url, doc }: any) {
+export default function PDFViewer({ url, doc }: any) {
   const [isLoading, setIsLoading] = useState(true);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const iframe = iframeRef.current;
-    if (iframe) {
-      iframe.onload = () => {
-        setIsLoading(false);
-      };
+    const userAgent = navigator.userAgent || navigator.vendor;
+    setIsMobile(/iPhone|iPad|iPod|Android/i.test(userAgent));
+
+    // Redirigir automáticamente si es móvil
+    if (/iPhone|iPad|iPod|Android/i.test(userAgent)) {
+      window.open(url, "_blank");
     }
   }, [url]);
+
+  if (isMobile) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <p className="text-center mb-4">
+          Redirigiendo al documento PDF en una nueva pestaña...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="relative w-full h-full">
@@ -24,11 +35,10 @@ export default function IFramePage({ url, doc }: any) {
         </div>
       )}
       <iframe
-        ref={iframeRef}
         src={url}
         className="w-full h-full"
         title={doc.name}
-        style={{ overflow: "auto", WebkitOverflowScrolling: "touch" }}
+        onLoad={() => setIsLoading(false)}
       />
     </div>
   );
