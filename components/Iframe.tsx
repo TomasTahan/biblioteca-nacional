@@ -28,6 +28,7 @@ export default function IFramePage({ url, doc }: any) {
         src={url}
         className="w-full h-full"
         title={doc.name}
+        style={{ overflow: "auto", WebkitOverflowScrolling: "touch" }}
       />
     </div>
   );

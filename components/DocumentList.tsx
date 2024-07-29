@@ -91,7 +91,7 @@ const DocumentList = ({ documents, carpeta }: any) => {
                       </Breadcrumb>
                     </DialogTitle>
                   </DialogHeader>
-                  <div className="w-full h-[80vh]">
+                  <div className="w-full h-[80vh] overflow-auto">
                     <IFramePage url={constructDocumentUrl(doc)} doc={doc} />
                   </div>
                 </DialogContent>
